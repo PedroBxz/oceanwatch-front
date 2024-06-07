@@ -5,14 +5,57 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mapa</title>
     <link rel="stylesheet" href="styles.css">
+    <!-- Adiciona a API do Google Maps -->
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBXD3NTCBLQXHqV3yW58aNJx6-aC1eVnGM&callback=initMap" defer></script>
+    <script>
+        // Função para inicializar o mapa
+        function initMap() {
+            // Define o mapa centralizado no Brasil
+            const map = new google.maps.Map(document.getElementById("map"), {
+                center: { lat: -14.235004, lng: -51.92528 },
+                zoom: 4,
+            });
+
+            // Pontos de exemplo nas costas do Brasil
+            const locations = [
+            { lat: -12.9714, lng: -38.5014 },  // Praia do Porto da Barra, Salvador
+                { lat: -22.9068, lng: -43.1729 },  // Copacabana, Rio de Janeiro
+                { lat: -23.9857, lng: -46.2422 },  // Praia de Pitangueiras, Guarujá
+                { lat: -8.1128, lng: -34.8826 },   // Praia de Boa Viagem, Recife
+                { lat: -27.5949, lng: -48.5482 },  // Praia de Jurerê, Florianópolis
+                { lat: -3.7183, lng: -38.5434 },   // Praia de Iracema, Fortaleza
+                { lat: -25.5163, lng: -48.5237 },  // Ilha do Mel, Paraná
+                { lat: -20.2961, lng: -40.2934 },  // Praia de Camburi, Vitória
+                { lat: -1.4558, lng: -48.4902 },   // Praia do Atalaia, Belém
+                { lat: -23.4928, lng: -46.7134 }   // Praia do Gonzaga, Santos
+            ];
+
+            // Adiciona marcadores ao mapa
+            locations.forEach(location => {
+                new google.maps.Marker({
+                    position: location,
+                    map: map,
+                });
+            });
+        }
+    </script>
+    <style>
+        /* Estilo para o contêiner do mapa */
+        #map {
+            height: 400px;
+            width: 100%;
+        }
+    </style>
 </head>
 <body>
     <header>
-        <img src="./images/ocean.png" alt="Profile Image">
-    </header>
+        <a href="index.html">
+            <img src="./images/ocean.png" alt="OceanWatch Logo">
+        </header>
+    </a>
     <div class="container">
         <h2>Mapa</h2>
-        <p>Mapa interativo google api aqui</p>
+        <div id="map"></div>
     </div>
     <div class="bottom-nav">
         <a href="index.html"><img src="./images/png-transparent-computer-icons-community-others-text-rectangle-wikimedia-commons.png" alt="Comunidade"><br>Comunidade</a>
@@ -20,6 +63,11 @@
         <a href="aprenda.html"><img src="./images/69544.png" alt="Aprenda"><br>Aprenda</a>
         <a href="perfil.html"><img src="./images/5987462.png" alt="Perfil"><br>Perfil</a>
     </div>
+
+    <a href="formulario.html" class="floating-button">
+        <img src="./images/comentarioicone.png" alt="Add">
+    </a>
+    
     <script src="script.js"></script>
 </body>
 </html>

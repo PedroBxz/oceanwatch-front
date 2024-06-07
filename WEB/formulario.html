@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulário de Denúncia</title>
+    <link rel="stylesheet" href="styles.css">
+    <!-- Adiciona a API do Google Maps com biblioteca de locais -->
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBXD3NTCBLQXHqV3yW58aNJx6-aC1eVnGM&libraries=places&callback=initMap" defer></script>
+    <script>
+        let map, marker, geocoder;
+
+        function initMap() {
+            // Inicializa o mapa centrado em uma localização padrão
+            map = new google.maps.Map(document.getElementById("map"), {
+                center: { lat: -14.235004, lng: -51.92528 },
+                zoom: 4,
+            });
+
+            // Geocoder para converter endereços em coordenadas
+            geocoder = new google.maps.Geocoder();
+
+            // Adiciona um marcador que o usuário pode arrastar
+            marker = new google.maps.Marker({
+                position: { lat: -14.235004, lng: -51.92528 },
+                map: map,
+                draggable: true,
+            });
+
+            // Atualiza os campos de latitude e longitude ao arrastar o marcador
+            google.maps.event.addListener(marker, 'dragend', function() {
+                document.getElementById('latitude').value = marker.getPosition().lat();
+                document.getElementById('longitude').value = marker.getPosition().lng();
+            });
+
+            // Adiciona um campo de pesquisa de lugares
+            const input = document.getElementById('location-search');
+            const searchBox = new google.maps.places.SearchBox(input);
+
+            // Atualiza a localização do mapa e do marcador quando um lugar é selecionado
+            searchBox.addListener('places_changed', function() {
+                const places = searchBox.getPlaces();
+                if (places.length == 0) {
+                    return;
+                }
+
+                // Pega o primeiro lugar (mais relevante)
+                const place = places[0];
+
+                // Atualiza o marcador e o mapa para a nova localização
+                if (place.geometry) {
+                    map.setCenter(place.geometry.location);
+                    map.setZoom(15);
+                    marker.setPosition(place.geometry.location);
+                    document.getElementById('latitude').value = marker.getPosition().lat();
+                    document.getElementById('longitude').value = marker.getPosition().lng();
+                }
+            });
+        }
+
+        // Função para processar o envio do formulário
+        function handleFormSubmit(event) {
+            event.preventDefault();
+            alert("Formulário enviado com sucesso!");
+            // Aqui você pode adicionar a lógica para enviar os dados para um servidor
+        }
+    </script>
+    
+</head>
+<body onload="initMap()">
+    <header>
+        <a href="index.html">
+            <img src="./images/ocean.png" alt="OceanWatch Logo">
+        </a>
+    </header>
+    <div class="form-container">
+        <h2>Denunciar Crime Ambiental</h2>
+        <form id="crime-form" onsubmit="handleFormSubmit(event)">
+            <label for="description">Descrição</label>
+            <textarea id="description" name="description" rows="4" required></textarea>
+
+            <label for="images">Imagens</label>
+            <input type="file" id="images" name="images" accept="image/*" multiple required>
+
+            <label for="location-search">Localização</label>
+            <input type="text" id="location-search" placeholder="Pesquise a localização" required>
+
+            <div id="map"></div>
+
+            <label for="latitude">Latitude</label>
+            <input type="text" id="latitude" name="latitude" readonly required>
+
+            <label for="longitude">Longitude</label>
+            <input type="text" id="longitude" name="longitude" readonly required>
+
+            <button type="submit">Enviar Denúncia</button>
+        </form>
+        
+    </div>
+    <div class="bottom-nav">
+        <a href="index.html"><img src="./images/png-transparent-computer-icons-community-others-text-rectangle-wikimedia-commons.png" alt="Comunidade"><br>Comunidade</a>
+        <a href="mapa.html"><img src="./images/1865153.png" alt="Mapa"><br>Mapa</a>
+        <a href="aprenda.html"><img src="./images/69544.png" alt="Aprenda"><br>Aprenda</a>
+        <a href="perfil.html"><img src="./images/5987462.png" alt="Perfil"><br>Perfil</a>
+    </div>
+
+</body>
+</html>
